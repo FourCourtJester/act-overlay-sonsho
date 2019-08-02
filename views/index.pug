@@ -1,0 +1,106 @@
+doctype html
+html
+  include tpl/head
+  body.container-fluid.no-gutters.bg-dark
+    div.row.h-100
+      //- Header
+      header.col-12.d-flex.flex-row.justify-content-start.align-items-center.bg-dark.text-light.px-0.py-1.m-0
+        p.encounter-time.text-info.mx-1.mb-0
+        p.encounter-description.flex-grow-1.text-left.mr-auto.mb-0
+          span.encounter-category
+          span.encounter-title.ml-1
+        p.encounter-views.text-right.mr-1.mb-0
+          //- All View Button
+          //- TODO: Re-do icon to have all 3 colors
+          button.btn.btn-link.p-0(data-target="#view-damage, #view-healing, #view-tanking", data-sonsho={ category: 'Fight', totals: ['rdps'] })
+            picture.position-relative.h-100.w-100.d-block(data-toggle="tooltip", data-placement="bottom", title="All") #[img(src="images/role/all.png")]
+          //- Damage View Button
+          button.btn.btn-link.p-0(data-target="#view-damage", data-sonsho={ category: 'Damage', totals: ['rdps'] })
+            picture.position-relative.h-100.w-100.d-block(data-toggle="tooltip", data-placement="bottom", title="Damage Done") #[img(src="images/role/damage.png")]
+          //- Damage Button
+          button.btn.btn-link.p-0(data-target="#view-healing", data-sonsho={ category: 'Healing', totals: ['rhps'] })
+            picture.position-relative.h-100.w-100.d-block(data-toggle="tooltip", data-placement="bottom", title="Healing Done") #[img(src="images/role/healing.png")]
+          //- Damage Taken Button
+          button.btn.btn-link.p-0(data-target="#view-tanking", data-sonsho={ category: 'Damage Taken', totals: ['rtps'] })
+            picture.position-relative.h-100.w-100.d-block(data-toggle="tooltip", data-placement="bottom", title="Damage Taken") #[img(src="images/role/tanking.png")]
+        p.encounter-totals.text-right.ml-2.mr-1.mb-0
+          span.encounter-total.encounter-rdps.d-none.text-damage
+          span.encounter-total.encounter-rhps.d-none.text-healing
+          span.encounter-total.encounter-rtps.d-none.text-tanking
+      //- Tabs
+      section.col-12.tab-content.p-0.m-0
+        //- Welcome Tab
+        article#view-welcome.tab-pane.fade.show.active
+          p.text-light Welcome
+        //- Damage Tab
+        article#view-damage.tab-pane.fade
+          //- p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.m-0
+            img.mr-1(src="images/role/damage.png")
+            span Damage
+          div.entries.encdps.position-relative
+        //- Healing Tab
+        article#view-healing.tab-pane.fade
+          p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.m-0
+            img(src="images/role/healing.png")
+            span Healing
+            span.encounter-rhps.text-healing.ml-auto
+          div.entries.enchps.position-relative
+        //- Tanking Tab
+        article#view-tanking.tab-pane.fade
+          p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.m-0
+            img(src="images/role/tanking.png")
+            span Damage Taken
+            span.encounter-rtps.text-tanking.ml-auto
+          div.entries.enctps.position-relative
+      //- section.col-12.tab-content.p-0.m-0
+        //- Welcome
+        article#view-welcome.tab-pane.fade.show.active
+          p.text-light Welcome
+        //- Damage & Healing
+        article#view-all.tab-pane.fade(data-sonsho={
+          total: ['.encounter-rdps', '.encounter-rhps'],
+          category: 'Damage & Healing',
+          key: ['encdps', 'enchps', 'enctps']
+        })
+          div.encdps
+            p.title.text-light.px-2.m-0
+              img.mr-1(src="images/role/damage.png")
+              | Damage
+            div.entries.position-relative
+          div.enchps
+            p.title.text-light.px-2.m-0
+              img(src="images/role/healing.png")
+              | Healing
+            div.entries.position-relative
+          div.enctps
+            p.title.text-light.px-2.m-0
+              img(src="images/role/tanking.png")
+              | Damage Taken
+            div.entries.position-relative
+        //- Damage
+        article#view-damage.tab-pane.fade(data-sonsho={
+          total: ['.encounter-rdps'],
+          category: 'Damage',
+          key: ['encdps']
+        })
+          div.encdps
+            div.entries.position-relative
+        //- Healing
+        article#view-healing.tab-pane.fade(data-sonsho={
+          total: ['.encounter-rhps'],
+          category: 'Healing',
+          key: ['enchps']
+        })
+          div.enchps
+            div.entries.position-relative
+        //- Damage Taken
+        article#view-tanking.tab-pane.fade(data-sonsho={
+          category: 'Damage Taken',
+          key: ['enctps']
+        })
+          div.enctps
+            div.entries.position-relative
+  //- Templates
+  include /views/mustache/combat-entry-encdps
+  include /views/mustache/combat-entry-enchps
+  include /views/mustache/combat-entry-enctps

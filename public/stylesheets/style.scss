@@ -1,0 +1,207 @@
+// Modified Bootstrap
+@import './bootstrap/package';
+
+// Default Bootstrap
+@import '../../node_modules/bootstrap/scss/root';
+@import '../../node_modules/bootstrap/scss/reboot';
+@import '../../node_modules/bootstrap/scss/type';
+// @import '../../node_modules/bootstrap/scss/images';
+// @import '../../node_modules/bootstrap/scss/code';
+@import '../../node_modules/bootstrap/scss/grid';
+// @import '../../node_modules/bootstrap/scss/tables';
+// @import '../../node_modules/bootstrap/scss/forms';
+@import '../../node_modules/bootstrap/scss/buttons';
+@import '../../node_modules/bootstrap/scss/transitions';
+// @import '../../node_modules/bootstrap/scss/dropdown';
+// @import '../../node_modules/bootstrap/scss/button-group';
+// @import '../../node_modules/bootstrap/scss/input-group';
+// @import '../../node_modules/bootstrap/scss/custom-forms';
+@import '../../node_modules/bootstrap/scss/nav';
+// @import '../../node_modules/bootstrap/scss/navbar';
+// @import '../../node_modules/bootstrap/scss/card';
+// @import '../../node_modules/bootstrap/scss/breadcrumb';
+// @import '../../node_modules/bootstrap/scss/pagination';
+// @import '../../node_modules/bootstrap/scss/badge';
+@import '../../node_modules/bootstrap/scss/jumbotron';
+// @import '../../node_modules/bootstrap/scss/alert';
+@import '../../node_modules/bootstrap/scss/progress';
+// @import '../../node_modules/bootstrap/scss/media';
+// @import '../../node_modules/bootstrap/scss/list-group';
+// @import '../../node_modules/bootstrap/scss/close';
+// @import '../../node_modules/bootstrap/scss/toasts';
+// @import '../../node_modules/bootstrap/scss/modal';
+@import '../../node_modules/bootstrap/scss/tooltip';
+// @import '../../node_modules/bootstrap/scss/popover';
+// @import '../../node_modules/bootstrap/scss/carousel';
+// @import '../../node_modules/bootstrap/scss/spinners';
+@import '../../node_modules/bootstrap/scss/utilities';
+
+// Create Job Background/Colorizations
+@each $color, $value in $ffxiv-job-colors {
+    @include entry-variant-job($color, $value);
+  }
+
+// Defaults
+scrollbar, ::-webkit-scrollbar {
+    display:none;
+}
+
+// Fonts
+@font-face {
+	font-family:'DS Digital';
+	src:url('../fonts/DS-DIGIB.ttf');
+}
+
+// -- Elements
+
+html, body {
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:'Roboto Condensed';
+    white-space:nowrap;
+}
+
+button, a {
+    cursor:pointer;
+
+    &.no-cursor {
+        cursor:auto;
+    }
+
+    picture {
+        &:before {
+            background:url('../images/role/_border.png');
+            background-size:cover;
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            height:100%;
+            width:100%;
+        }
+
+        &:hover {
+            &:before {
+                background:url('../images/role/_hover.png');
+                background-size:cover;
+            }
+        }
+    }
+
+    &.active {
+        picture {
+            &:before {
+                background:url('../images/role/_hover.png');
+                background-size:cover;
+            }
+        }
+    }
+}
+
+img {
+    max-height:32px;
+    max-width:32px;
+}
+
+header {
+    border-bottom: 2px solid $gray-500;
+    box-sizing: content-box;
+    font-size:1.4rem;
+    height:$header-height;
+    overflow:hidden;
+
+    img {
+        max-height:$default-img-size;
+        max-width:$default-img-size;
+    }
+
+    .encounter-description {
+        font-size:1.3rem;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .encounter-time {
+        font-family:'DS Digital';
+        font-size:2.0rem;
+    }
+
+    .encounter-category {
+        &:after {
+            content:":";
+        }
+    }
+
+    .encounter-views {
+        display:none;
+    }
+
+    .encounter-totals {
+        display:inherit;
+
+        .encounter-rdps.d-inline-block + .encounter-rhps.d-inline-block, .encounter-rhps.d-inline-block + .encounter-rtps.d-inline-block {
+            margin-left:0.25rem !important;
+        }
+    }
+
+    &:hover {
+        .encounter-views {
+            display:inherit;
+        }
+
+        .encounter-totals {
+            display:none;
+        }
+    }
+}
+
+.tab-content {
+    height: calc(100% - #{$header-height});
+    overflow-y:scroll;
+
+    .tab-pane {
+        .title {
+            background:rgba(0,0,0,.4);
+            display:none !important;
+            height:$entry-height;
+            line-height:$entry-height;
+
+            .encounter-rhps, .encounter-rtps {
+                font-size:1.4rem;
+            }
+        }
+
+        .entries {
+            overflow:hidden;
+        
+            .combat-entry {
+                &.d-none {
+                    display:none !important;
+                }
+            }
+        }
+    }
+
+    .tab-pane.show.active + .tab-pane.show.active {
+        .title {
+            display:flex !important;
+        }
+    }
+}
+
+.text-shadow {
+    text-shadow:$text-shadow;
+}
+
+// Animations
+
+.tab-pane {
+    .combat-entry {
+        transition: top ease .5s;
+    
+        .bar-graph {
+            transition: width ease .75s;
+        }
+    }
+}
