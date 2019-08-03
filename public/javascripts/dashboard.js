@@ -381,7 +381,6 @@ class SonshoDashboard {
 
             // Update the DOM every second
             this.timer = setInterval(() => {
-                console.log('update')
                 this.update(JSON.parse(JSON.stringify(this.combat)))
             }, 750)
         }
