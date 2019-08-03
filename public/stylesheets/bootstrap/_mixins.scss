@@ -12,6 +12,8 @@
 
         img {
             content:url("../../images/job/#{$parent}.png");
+            height:24px;
+            width:24px;
         }
 
         .bar-graph {
@@ -29,11 +31,11 @@
         }
 
         .entrant-dps, .entrant-hps, .entrant-tps {
-            min-width:$field-width;
+            min-width:$field-width - 5;
         }
 
         .entrant-healing, .entrant-shielding, .entrant-damage-taken {
-            min-width:$field-width + 8;
+            min-width:$field-width;
         }
 
         .entrant-total-damage-fraction, .entrant-total-healing-fraction {

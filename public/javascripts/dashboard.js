@@ -23,6 +23,7 @@ class SonshoDashboard {
         this.options = {
             YOU: 'YOU',
             categories: ['encdps', 'enchps', 'enctps'],
+            fractionals: ['encdps', 'enchps', 'enctps', 'damage', 'healing', 'damage_taken'],
         }
 
         // DOM Elements
@@ -39,6 +40,7 @@ class SonshoDashboard {
                     prefix_mustache: '#mustache-combat-entry',
                     dynamic: 'dynamic-field',
                     graph: '.bar-graph',
+                    height: 30,
                 },
             },
         }
@@ -64,7 +66,6 @@ class SonshoDashboard {
 
         // Socket Events
         this.events = {
-            onSendCharName: this._onSendCharName.bind(this),
             onCombatData: this._onCombatData.bind(this),
         }
 
@@ -74,7 +75,9 @@ class SonshoDashboard {
 
             this.update(JSON.parse(JSON.stringify(this.combat)))
             return true
-        }, 1000)
+        }, 750)
+
+        this.update(this.combat)
     }
 
     /**
@@ -89,13 +92,12 @@ class SonshoDashboard {
 
         $(document)
             // OverlayPlugin
-            // .on('onOverlayStateUpdate', (e) => {
-            //     console.log(e.detail)
-            // })
-            // OverlayPlugin
-            // .on('onOverlayDataUpdate', (e) => {
-            //     this._onCombatData(e.detail)
-            // })
+            .on('onOverlayStateUpdate', (e) => {
+                $('body').removeClass('debug')
+
+                if (e.detail.isLocked) $('body').removeClass('resize')
+                else $('body').addClass('resize')
+            })
             .on('click', this.elements.btn, function (e) {
                 e.preventDefault()
 
@@ -144,7 +146,8 @@ class SonshoDashboard {
      * Updates the UI
      * @param {Object} combat
      */
-    update (combat) {
+    async update (combat) {
+        // Welcome view is up, no data has been passed
         if ($('#view-welcome.show.active').length) {
             // If there is no actual combat data, this is probably a page load
             if (combat.active == null) {
@@ -158,96 +161,108 @@ class SonshoDashboard {
             $(`${this.elements.btn}`).eq(0).trigger('click')
         }
 
-        const max_values = {
-            encdps: 0,
-            enchps: 0,
-            enctps: 0,
-            damage: 0,
-            healing: 0,
-            damage_taken: 0,
-        }
-
-        let entries = []
-
-        // Update the header static values
-        Utils.setElementValue($([this.elements.header.prefix, 'time'].join('-')), combat.time.formatted)
-        Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), combat.title)
+        const saves = []
 
         // Create Combatant entries
         for (const combatant of combat.combatants) {
-            const entry = { fraction: {} }
-
-            // Identification
-            entry.job = combatant.Job.length ? combatant.Job.toUpperCase() : combatant.name.indexOf('(') >= 0 ? '_pet' : '_limit-break'
-            entry.display_name = combatant.name
-            entry.display_name_short = Utils.slugify(combatant.name)
-            entry.you = combatant.name == this.options.YOU,
-
-            // Stats - Damage
-            entry.damage = +combatant.damage
-
-            // Stats - Healing
-            // entry.shielding = +combatant.damageShield    // ACTWebsocket
-            // entry.overhealing = +combatant.overHeal  // ACTWebsocket
-            // entry.healing = +combatant.healed - entry.overhealing - entry.shielding  // ACTWebsocket
-            // entry.fraction.overhealing = (entry.overhealing / (+combatant.healed || 1)) * 100    // ACTWebsocket
-
-            entry.fraction.overhealing = +(combatant.OverHealPct.slice(0, -1))
-            entry.overhealing = +combatant.healed * +(combatant.OverHealPct.slice(0, -1)) / 100
-            entry.healing = +combatant.healed - entry.overhealing
-
-            // Stats - Damage Taken
-            entry.damage_taken = +combatant.damagetaken
-            entry.deaths = +combatant.deaths
-
-            // Calculate encounter totals
-            entry.encdps = entry.damage / (combat.time.t || 1)
-            entry.enchps = entry.healing / (combat.time.t || 1)
-            entry.enctps = entry.damage_taken / (combat.time.t || 1)
-
-            // Find the max value of encounter totals
-            for (const stat of Object.keys(max_values)) {
-                if (stat.startsWith('enc')) max_values[stat] = Math.max(max_values[stat], entry[stat])
-                else max_values[stat] += entry[stat]
-            }
-
-            entries.push(entry)
+            saves.push(Promise.resolve(this._parse(combat, combatant)))
         }
 
-        // Update the header raid values
-        Utils.setElementValue($([this.elements.header.prefix, 'rdps'].join('-')), this._format(max_values.damage / (combat.time.t || 1)))
-        Utils.setElementValue($([this.elements.header.prefix, 'rhps'].join('-')), this._format(max_values.healing / (combat.time.t || 1)))
-        Utils.setElementValue($([this.elements.header.prefix, 'rtps'].join('-')), this._format(max_values.damage_taken / (combat.time.t || 1)))
+        await Promise.all(saves)
+            .then((entries) => {
+                const max = {}
 
-        // Combatant and Max values are saved
-        // Author the entries
-        entries = entries.map((e) => {
-            // Save the max value into the entry
-            for (const stat of Object.keys(max_values)) e.fraction[stat] = (e[stat] / max_values[stat]) * 100
-            this._entry(e)
-            return e
-        })
+                // Save the max values
+                for (const entry of entries) {
+                    for (const stat of this.options.fractionals) {
+                        if (stat.startsWith('enc')) max[stat] = Math.max(entry[stat], max[stat] || 0)
+                        else max[stat] = (max[stat] || 0) + entry[stat]
+                    }
+                }
 
-        // Sort by category
-        for (const category of this.options.categories) {
-            const
-                $category = $(`.${category}`),
-                $entries = $category.children(),
-                $title = $category.prev('.title')
+                return [entries, max]
+            })
+            .then(([entries, max]) => {
+                const sub_saves = []
 
-            if (!$entries.length) {
-                $title.removeClass('d-flex').addClass('d-none')
-                continue
-            }
+                for (const entry of entries) {
+                    sub_saves.push(new Promise((resolve, reject) => {
+                        for (const stat of Object.keys(max)) entry.fraction[stat] = (entry[stat] / max[stat]) * 100
+                        this._entry(entry)
+                        resolve(entry)
+                    }))
+                }
 
-            $title.removeClass('d-none').addClass('d-flex')
+                return [Promise.resolve(Promise.all(sub_saves)), max]
+            })
+            .then(([, max]) => {
+                // Update the header values
+                Utils.setElementValue($([this.elements.header.prefix, 'time'].join('-')), combat.time.formatted)
+                Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), combat.title)
+                Utils.setElementValue($([this.elements.header.prefix, 'rdps'].join('-')), this._format(max.damage / (combat.time.t || 1)))
+                Utils.setElementValue($([this.elements.header.prefix, 'rhps'].join('-')), this._format(max.healing / (combat.time.t || 1)))
+                Utils.setElementValue($([this.elements.header.prefix, 'rtps'].join('-')), this._format(max.damage_taken / (combat.time.t || 1)))
 
-            this._sort($entries)
-        }
+                for (const category of this.options.categories) {
+                    const
+                        $category = $(`.${category}`),
+                        $entries = $category.children(),
+                        $title = $category.prev('.title')
+
+                    if (!$entries.length) {
+                        $title.removeClass('d-flex').addClass('d-none')
+                        continue
+                    }
+
+                    $title.removeClass('d-none').addClass('d-flex')
+
+                    this._sort($entries)
+                }
+            })
     }
 
     /**
-     * Create/Edit a combat entry
+     * Parses the ACT information
+     * @param {Object} combat
+     * @param {Object} combatant
+     * @return {Object}
+     */
+    async _parse (combat, combatant) {
+        const entry = { fraction: {} }
+
+        // Identification
+        entry.job = combatant.Job.length ? combatant.Job.toUpperCase() : Utils.in(combatant.name, '(') ? '_pet' : '_limit-break'
+        entry.display_name = combatant.name
+        entry.display_name_short = Utils.slugify(combatant.name)
+        entry.you = combatant.name == this.options.YOU,
+
+        // Stats - Damage
+        entry.damage = +combatant.damage
+
+        // Stats - Healing
+        // entry.shielding = +combatant.damageShield    // ACTWebsocket
+        // entry.overhealing = +combatant.overHeal  // ACTWebsocket
+        // entry.healing = +combatant.healed - entry.overhealing - entry.shielding  // ACTWebsocket
+        // entry.fraction.overhealing = (entry.overhealing / (+combatant.healed || 1)) * 100    // ACTWebsocket
+
+        entry.fraction.overhealing = +(combatant.OverHealPct.slice(0, -1))
+        entry.overhealing = +combatant.healed * +(combatant.OverHealPct.slice(0, -1)) / 100
+        entry.healing = +combatant.healed - entry.overhealing
+
+        // Stats - Damage Taken
+        entry.damage_taken = +combatant.damagetaken
+        entry.deaths = +combatant.deaths
+
+        // Calculate encounter totals
+        entry.encdps = entry.damage / (combat.time.t || 1)
+        entry.enchps = entry.healing / (combat.time.t || 1)
+        entry.enctps = entry.damage_taken / (combat.time.t || 1)
+
+        return entry
+    }
+
+    /**
+     * Create or Update a combat entry
      * @param {Object} entry
      */
     _entry (entry) {
@@ -281,6 +296,11 @@ class SonshoDashboard {
                 // Update the entry for sorting
                 $tpl.data('sonsho', { sort: entry[key] })
 
+                // Update the job
+                if (!$tpl.hasClass(`job-${entry.job}`)) {
+                    $tpl.get(0).classList.replace(Array.from($tpl.get(0).classList).find((e) => e.startsWith('job')), `job-${entry.job}`)
+                }
+
                 // Update the bar
                 $tpl
                     .find(this.elements.entry.combat.graph)
@@ -309,7 +329,7 @@ class SonshoDashboard {
     }
 
     /**
-     * 
+     * Format numbers for visual display
      * @param {Number|String} str 
      * @param {Number} [digits = 1]
      * @return {String}
@@ -330,7 +350,7 @@ class SonshoDashboard {
     }
 
     /**
-     * 
+     * Sorts DOM Elements by the stored key
      * @param {JQuery} $entries
      */
     _sort ($entries) {
@@ -350,17 +370,8 @@ class SonshoDashboard {
                 pos = $entry.index() - i
 
             // Reposition the entry, if necessary
-            $entry.css({ top: `${-pos * 40}px` })
+            $entry.css({ top: `${-pos * this.elements.entry.combat.height}px` })
         }
-    }
-
-    /**
-     * Handles a CharName event
-     * @param {Object} data 
-     */
-    _onSendCharName (data) {
-        // Rename your character
-        // this.options.YOU = data.charName
     }
 
     /**
@@ -373,7 +384,7 @@ class SonshoDashboard {
 
         // TODO: Create history if new encounter
         if (!this.combat.active && active) {
-            console.log('Combat begins', encounter.title)
+            console.log(`Combat begins: ${encounter.title}`)
             $(this.elements.entry.combat.class).remove()
         }
 
@@ -394,10 +405,10 @@ class SonshoDashboard {
             data: encounter,
         }
 
-        // if (this.combat.active) this.update()
-        // else console.log('Combat ends', encounter.title)
-
-        if (!active) console.log('Combat ends', encounter.title)
+        if (active == false) {
+            console.log(`Combat ends: ${encounter.title}`)
+            Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), encounter.title)
+        }
     }
 }
 

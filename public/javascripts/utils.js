@@ -33,23 +33,6 @@ class SonshoToolkit {
     }
 
     /**
-     * Activates Bootstrap tooltips if present in the page.
-     * Will not execute on touch enabled devices
-     * @param {jQuery} [$container] - The JQuery Element to add tooltips to
-     * @return {CartographyDOMToolkit}
-     */
-    tooltips ($container = $('body')) {
-        if (this.isTouchEnabled()) return this
-
-        // Only attach tooltips if this is a desktop browser
-        // $.each($container.find(`[data-toggle='tooltip']`).addBack(`[data-toggle='tooltip']`), (i, e) => {
-        //     $(e).tooltip({ trigger: 'hover' }).attr('data-tooltip-enabled', true)
-        // })
-
-        return this
-    }
-
-    /**
      * Get the value of the path in an Object
      * @param {Object} obj - The object to traverse
      * @param {String} path - The path to the value
@@ -84,27 +67,7 @@ class SonshoToolkit {
         // No element
         if (!$element.length) return this
         $element.text(val)
-        return
-
-        // // Do something based upon tagName
-        // switch ($element.prop('tagName').toLowerCase()) {
-        // // Non Inputs
-        // default:
-        //     if ($element.children().length) {
-        //         // If this element has children, we can't use .text(), so find the first TEXT_NODE
-        //         var node = $element.contents().filter(function () {
-        //             return this.nodeType == 3
-        //         })
-
-        //         // If there is no TEXT_NODE in this element, create it
-        //         // Otherwise, assign the value
-        //         if (!node.length) $element.prepend(document.createTextNode(val))
-        //         else node[0].nodeValue = val
-        //     } else {
-        //         $element.text(val)
-        //     }
-        //     break
-        // }
+        return this
     }
 
     /**
@@ -119,6 +82,3 @@ class SonshoToolkit {
 
 // Declare
 const Utils = new SonshoToolkit()
-
-// Globals
-Utils.tooltips()

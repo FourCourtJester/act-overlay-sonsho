@@ -1,12 +1,12 @@
 doctype html
 html
   include tpl/head
-  body.container-fluid.no-gutters
+  body.container-fluid.debug.no-gutters
     div.row.h-100
       //- Header
-      header.col-12.d-flex.flex-row.justify-content-start.align-items-center.bg-dark.text-light.px-0.py-1.m-0
-        p.encounter-time.text-info.mx-1.mb-0
-        p.encounter-description.flex-grow-1.text-left.mr-auto.mb-0
+      header.col-12.d-flex.flex-row.justify-content-start.text-light.px-0.py-1.m-0
+        span.encounter-time.text-info.mx-1.mb-0
+        span.encounter-description.flex-grow-1.text-center.mr-auto.mb-0
           span.encounter-category
           span.encounter-title.ml-1
         p.encounter-views.text-right.mr-1.mb-0
@@ -23,7 +23,7 @@ html
           //- Damage Taken Button
           button.btn.btn-link.p-0(data-target="#view-tanking", data-sonsho={ category: 'Damage Taken', totals: ['rtps'] })
             picture.position-relative.h-100.w-100.d-block(data-toggle="tooltip", data-placement="bottom", title="Damage Taken") #[img(src="images/role/tanking.png")]
-        p.encounter-totals.text-right.ml-2.mr-1.mb-0
+        span.encounter-totals.text-right.ml-2.mr-1.mb-0
           span.encounter-total.encounter-rdps.d-none.text-damage
           span.encounter-total.encounter-rhps.d-none.text-healing
           span.encounter-total.encounter-rtps.d-none.text-tanking
@@ -40,14 +40,14 @@ html
           div.entries.encdps.position-relative
         //- Healing Tab
         article#view-healing.tab-pane.fade
-          p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.m-0
+          p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.py-1.m-0
             img(src="images/role/healing.png")
             span Healing
             span.encounter-rhps.text-healing.ml-auto
           div.entries.enchps.position-relative
         //- Tanking Tab
         article#view-tanking.tab-pane.fade
-          p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.m-0
+          p.title.d-flex.flex-row.justify-content-left.align-items-center.text-light.px-1.py-1.m-0
             img(src="images/role/tanking.png")
             span Damage Taken
             span.encounter-rtps.text-tanking.ml-auto

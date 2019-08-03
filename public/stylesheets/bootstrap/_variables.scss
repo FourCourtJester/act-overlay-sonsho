@@ -44,7 +44,7 @@ $ffxiv-custom-colors: (
 
 // Body
 // $body-bg:#343a40; // $dark
-$body-bg: rgba(0,0,0,.4);
+// $body-bg: rgba(0,0,0,.4);
 
 // Base Bootstrap
 @import '../../../node_modules/bootstrap/scss/variables';
@@ -68,4 +68,4 @@ $default-img-size:32px;
 
 // Variables
 $header-height:40px;
-$entry-height:40px;
+$entry-height:30px;
