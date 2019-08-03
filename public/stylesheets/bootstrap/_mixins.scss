@@ -11,7 +11,7 @@
         font-size:1.2rem;
 
         img {
-            content:url("../../images/job/#{$parent}.png");
+            content:url("../images/job/#{$parent}.png");
             height:24px;
             width:24px;
         }

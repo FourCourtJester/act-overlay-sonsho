@@ -113,8 +113,8 @@ button, a {
 }
 
 img {
-    max-height:32px;
-    max-width:32px;
+    max-height:$default-img-size;
+    max-width:$default-img-size;
 }
 
 header {
@@ -184,8 +184,8 @@ header {
             background:rgba(0,0,0,.4);
             border-bottom:2px solid $gray-500;
             border-top:2px solid $gray-500;
-            height:$entry-height + 10;  // - Padding
-            line-height:$entry-height + 10; // - Padding
+            height:$entry-height;
+            line-height:$entry-height;
             font-size:1.2rem;
 
             .encounter-rhps, .encounter-rtps {

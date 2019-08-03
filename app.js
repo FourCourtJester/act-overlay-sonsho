@@ -1,10 +1,8 @@
 const
     express = require('express'),
     path = require('path'),
-    cookieParser = require('cookie-parser'),
     createError = require('http-errors'),
     sassMiddleware = require('node-sass-middleware'),
-    logger = require('morgan'),
     app = express()
 
 // view engine setup
@@ -13,16 +11,14 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
 // setup middleware
-app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
 app.use(require('serve-favicon')(path.join(__dirname, 'public', 'favicon.png')))
-app.use(sassMiddleware({ src: path.join(__dirname, 'public'), outputStyle: 'compressed' }))
+app.use(sassMiddleware({ src: __dirname, outputStyle: 'compressed' }))
 
 // create paths
-app.use(express.static(path.join(__dirname, 'public')))
-app.use('/modules', express.static(path.join(__dirname, 'node_modules')))
+app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
 
 // routes
 app.use('/', require('./routes/index'))

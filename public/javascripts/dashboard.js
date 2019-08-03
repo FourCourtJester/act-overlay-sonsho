@@ -69,14 +69,6 @@ class SonshoDashboard {
             onCombatData: this._onCombatData.bind(this),
         }
 
-        // Update the DOM every second
-        this.timer = setInterval(() => {
-            if (!this.combat.active) return false
-
-            this.update(JSON.parse(JSON.stringify(this.combat)))
-            return true
-        }, 750)
-
         this.update(this.combat)
     }
 
@@ -386,6 +378,12 @@ class SonshoDashboard {
         if (!this.combat.active && active) {
             console.log(`Combat begins: ${encounter.title}`)
             $(this.elements.entry.combat.class).remove()
+
+            // Update the DOM every second
+            this.timer = setInterval(() => {
+                console.log('update')
+                this.update(JSON.parse(JSON.stringify(this.combat)))
+            }, 750)
         }
 
         // Start new combat
@@ -408,6 +406,9 @@ class SonshoDashboard {
         if (active == false) {
             console.log(`Combat ends: ${encounter.title}`)
             Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), encounter.title)
+
+            clearInterval(this.timer)
+            this.timer = null
         }
     }
 }
