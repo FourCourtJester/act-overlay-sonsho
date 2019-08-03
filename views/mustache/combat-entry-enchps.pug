@@ -11,16 +11,13 @@ script#mustache-combat-entry-enchps(type="x-tmpl-mustache")
         span.d-inline-block.text-right
             span.entrant-overhealing.text-negative-field.dynamic-field(
                 class = `{{^overhealing}}d-none{{/overhealing}}`,
-                data-sonsho={ key: 'overhealing' }
-            ) {{#format}}overhealing{{/format}}
+                data-sonsho={ key: 'overhealing' }) {{#format}}overhealing{{/format}}
             span.entrant-total-overhealing-fraction.text-negative-field.dynamic-field.ml-1.mr-1(
                 class = `{{^fraction.overhealing}}d-none{{/fraction.overhealing}}`,
-                data-sonsho={ key: 'fraction.overhealing' }
-            ) {{#format}}fraction.overhealing{{/format}}
-            span.entrant-shielding.text-shielding.dynamic-field.d-inline-block.mr-1(
+                data-sonsho={ key: 'fraction.overhealing' }) {{#format}}fraction.overhealing{{/format}}
+            //- span.entrant-shielding.text-shielding.dynamic-field.d-inline-block.mr-1(
                 class = `{{^shielding}}d-none{{/shielding}}`,
-                data-sonsho={ key: 'shielding'}
-            ) {{#format}}shielding{{/format}}
+                data-sonsho={ key: 'shielding'}) {{#format}}shielding{{/format}}
             span.entrant-healing.d-inline-block(data-sonsho={ key: 'healing' }) {{#format}}healing{{/format}}
             span.entrant-hps.d-inline-block.font-weight-bold.ml-1(data-sonsho={ key: 'enchps' }) {{#format}}enchps{{/format}}
             span.entrant-total-healing-fraction.d-inline-block.ml-1(data-sonsho={ key: 'fraction.healing' }) {{#format}}fraction.healing{{/format}}

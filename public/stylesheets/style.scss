@@ -163,7 +163,7 @@ header {
     .tab-pane {
         .title {
             background:rgba(0,0,0,.4);
-            display:none !important;
+            // display:none !important;
             height:$entry-height;
             line-height:$entry-height;
 
@@ -183,9 +183,9 @@ header {
         }
     }
 
-    .tab-pane.show.active + .tab-pane.show.active {
+    .tab-pane:not(.active) + .tab-pane.show.active {
         .title {
-            display:flex !important;
+            display:none !important;
         }
     }
 }
@@ -198,10 +198,12 @@ header {
 
 .tab-pane {
     .combat-entry {
-        transition: top ease .5s;
+        transition: top ease .375s;
+        transform: translate3d(0, 0, 0);
     
         .bar-graph {
-            transition: width ease .75s;
+            transition: width ease .5s;
+            transform: translate3d(0, 0, 0);
         }
     }
 }

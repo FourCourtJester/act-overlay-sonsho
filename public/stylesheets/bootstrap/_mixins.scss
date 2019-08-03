@@ -81,23 +81,23 @@
             .bar-graph {
                 background-color: $color !important;
                 background-size: 1rem 1rem;
-                animation:progress-bar-stripes 2.5s linear infinite;
+                // animation:progress-bar-stripes 2.5s linear infinite;
                 @include gradient-striped();
             }
         }
 
-        @include hover-focus {
-            &:not(.you) {
-                .bar-graph {
-                    background: $color linear-gradient(90deg, $color, lighten($color, 20%)) repeat-x !important;
-                }
-            }
+        // @include hover-focus {
+        //     &:not(.you) {
+        //         .bar-graph {
+        //             background: $color linear-gradient(90deg, $color, lighten($color, 20%)) repeat-x !important;
+        //         }
+        //     }
 
-            &.you {
-                .bar-graph {
-                    background-color: lighten($color, 10%) !important;
-                }
-            }
-        }
+        //     &.you {
+        //         .bar-graph {
+        //             background-color: lighten($color, 10%) !important;
+        //         }
+        //     }
+        // }
     }
 }

@@ -68,7 +68,13 @@ class SonshoDashboard {
             onCombatData: this._onCombatData.bind(this),
         }
 
-        this.update()
+        // Update the DOM every second
+        this.timer = setInterval(() => {
+            if (!this.combat.active) return false
+
+            this.update(JSON.parse(JSON.stringify(this.combat)))
+            return true
+        }, 1000)
     }
 
     /**
@@ -82,6 +88,14 @@ class SonshoDashboard {
         const that = this
 
         $(document)
+            // OverlayPlugin
+            // .on('onOverlayStateUpdate', (e) => {
+            //     console.log(e.detail)
+            // })
+            // OverlayPlugin
+            // .on('onOverlayDataUpdate', (e) => {
+            //     this._onCombatData(e.detail)
+            // })
             .on('click', this.elements.btn, function (e) {
                 e.preventDefault()
 
@@ -128,14 +142,15 @@ class SonshoDashboard {
 
     /**
      * Updates the UI
+     * @param {Object} combat
      */
-    update () {
+    update (combat) {
         if ($('#view-welcome.show.active').length) {
             // If there is no actual combat data, this is probably a page load
-            if (this.combat.active == null) {
+            if (combat.active == null) {
                 // Fill in default data
-                Utils.setElementValue($([this.elements.header.prefix, 'time'].join('-')), this.combat.time.formatted)
-                Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), this.combat.title)
+                Utils.setElementValue($([this.elements.header.prefix, 'time'].join('-')), combat.time.formatted)
+                Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), combat.title)
                 Utils.setElementValue($([this.elements.header.prefix, 'category'].join('-')), 'Waiting')
                 return
             }
@@ -155,36 +170,40 @@ class SonshoDashboard {
         let entries = []
 
         // Update the header static values
-        Utils.setElementValue($([this.elements.header.prefix, 'time'].join('-')), this.combat.time.formatted)
-        Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), this.combat.title)
+        Utils.setElementValue($([this.elements.header.prefix, 'time'].join('-')), combat.time.formatted)
+        Utils.setElementValue($([this.elements.header.prefix, 'title'].join('-')), combat.title)
 
         // Create Combatant entries
-        for (const combatant of this.combat.combatants) {
+        for (const combatant of combat.combatants) {
             const entry = { fraction: {} }
 
             // Identification
             entry.job = combatant.Job.length ? combatant.Job.toUpperCase() : combatant.name.indexOf('(') >= 0 ? '_pet' : '_limit-break'
             entry.display_name = combatant.name
             entry.display_name_short = Utils.slugify(combatant.name)
-            entry.you = combatant.name == 'YOU',
+            entry.you = combatant.name == this.options.YOU,
 
             // Stats - Damage
             entry.damage = +combatant.damage
 
             // Stats - Healing
-            entry.shielding = +combatant.damageShield
-            entry.overhealing = +combatant.overHeal
-            entry.healing = +combatant.healed - entry.overhealing - entry.shielding
-            entry.fraction.overhealing = (entry.overhealing / (+combatant.healed || 1)) * 100
+            // entry.shielding = +combatant.damageShield    // ACTWebsocket
+            // entry.overhealing = +combatant.overHeal  // ACTWebsocket
+            // entry.healing = +combatant.healed - entry.overhealing - entry.shielding  // ACTWebsocket
+            // entry.fraction.overhealing = (entry.overhealing / (+combatant.healed || 1)) * 100    // ACTWebsocket
+
+            entry.fraction.overhealing = +(combatant.OverHealPct.slice(0, -1))
+            entry.overhealing = +combatant.healed * +(combatant.OverHealPct.slice(0, -1)) / 100
+            entry.healing = +combatant.healed - entry.overhealing
 
             // Stats - Damage Taken
             entry.damage_taken = +combatant.damagetaken
             entry.deaths = +combatant.deaths
 
             // Calculate encounter totals
-            entry.encdps = entry.damage / (this.combat.time.t || 1)
-            entry.enchps = entry.healing / (this.combat.time.t || 1)
-            entry.enctps = entry.damage_taken / (this.combat.time.t || 1)
+            entry.encdps = entry.damage / (combat.time.t || 1)
+            entry.enchps = entry.healing / (combat.time.t || 1)
+            entry.enctps = entry.damage_taken / (combat.time.t || 1)
 
             // Find the max value of encounter totals
             for (const stat of Object.keys(max_values)) {
@@ -196,9 +215,9 @@ class SonshoDashboard {
         }
 
         // Update the header raid values
-        Utils.setElementValue($([this.elements.header.prefix, 'rdps'].join('-')), this._format(max_values.damage / (this.combat.time.t || 1)))
-        Utils.setElementValue($([this.elements.header.prefix, 'rhps'].join('-')), this._format(max_values.healing / (this.combat.time.t || 1)))
-        Utils.setElementValue($([this.elements.header.prefix, 'rtps'].join('-')), this._format(max_values.damage_taken / (this.combat.time.t || 1)))
+        Utils.setElementValue($([this.elements.header.prefix, 'rdps'].join('-')), this._format(max_values.damage / (combat.time.t || 1)))
+        Utils.setElementValue($([this.elements.header.prefix, 'rhps'].join('-')), this._format(max_values.healing / (combat.time.t || 1)))
+        Utils.setElementValue($([this.elements.header.prefix, 'rtps'].join('-')), this._format(max_values.damage_taken / (combat.time.t || 1)))
 
         // Combatant and Max values are saved
         // Author the entries
@@ -210,7 +229,21 @@ class SonshoDashboard {
         })
 
         // Sort by category
-        for (const category of this.options.categories) this._sort($(`.${category}`).children())
+        for (const category of this.options.categories) {
+            const
+                $category = $(`.${category}`),
+                $entries = $category.children(),
+                $title = $category.prev('.title')
+
+            if (!$entries.length) {
+                $title.removeClass('d-flex').addClass('d-none')
+                continue
+            }
+
+            $title.removeClass('d-none').addClass('d-flex')
+
+            this._sort($entries)
+        }
     }
 
     /**
@@ -225,26 +258,28 @@ class SonshoDashboard {
                 tpl = [this.elements.entry.combat.prefix_mustache, key].join('-'),
                 $tpl = $(`#${[this.elements.entry.combat.prefix, key, entry.display_name_short].join('-')}`) || $()
 
-            if (!$tpl.length && entry[key]) {
-                // New entry
-                try {
-                    $(`.${key}`).append($(Mustache.render($(tpl).html(), $.extend(entry, {
-                        format: function () {
-                            return (text, render) => {
-                                const [val, digits] = text.split('|')
+            if (!$tpl.length) {
+                if (entry[key]) {
+                    // New entry
+                    try {
+                        $(`.${key}`).append($(Mustache.render($(tpl).html(), $.extend(entry, {
+                            format: function () {
+                                return (text, render) => {
+                                    const [val, digits] = text.split('|')
 
-                                if (digits) return render(that._format(Utils.getObjValue(this, val), +digits))
-                                return render(that._format(Utils.getObjValue(this, text)))
-                            }
-                        },
-                    }))))
-                } catch (err) {
-                    console.error(err)
+                                    if (digits) return render(that._format(Utils.getObjValue(this, val), +digits))
+                                    return render(that._format(Utils.getObjValue(this, text)))
+                                }
+                            },
+                        }))))
+                    } catch (err) {
+                        console.error(err)
+                    }
                 }
             } else {
                 // Existing entry
                 // Update the entry for sorting
-                $tpl.data('sonsho', { sort: Utils.getObjValue(entry, key) })
+                $tpl.data('sonsho', { sort: entry[key] })
 
                 // Update the bar
                 $tpl
@@ -325,7 +360,7 @@ class SonshoDashboard {
      */
     _onSendCharName (data) {
         // Rename your character
-        this.options.YOU = data.charName
+        // this.options.YOU = data.charName
     }
 
     /**
@@ -333,9 +368,12 @@ class SonshoDashboard {
      * @param {Object} data 
      */
     _onCombatData ({ Combatant: combatants, Encounter: encounter, isActive: active }) {
+        // Convert all types to Boolean
+        active = String(active).toString().toLowerCase() == 'true'
+
         // TODO: Create history if new encounter
         if (!this.combat.active && active) {
-            console.log('Combat begins')
+            console.log('Combat begins', encounter.title)
             $(this.elements.entry.combat.class).remove()
         }
 
@@ -356,9 +394,10 @@ class SonshoDashboard {
             data: encounter,
         }
 
-        if (this.combat.active) this.update()
-        else console.log('Combat ends')
-        this.update()
+        // if (this.combat.active) this.update()
+        // else console.log('Combat ends', encounter.title)
+
+        if (!active) console.log('Combat ends', encounter.title)
     }
 }
 
