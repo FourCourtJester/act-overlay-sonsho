@@ -241,8 +241,8 @@ class SonshoDashboard {
         // entry.healing = +combatant.healed - entry.overhealing - entry.shielding  // ACTWebsocket
         // entry.fraction.overhealing = (entry.overhealing / (+combatant.healed || 1)) * 100    // ACTWebsocket
 
-        entry.fraction.overhealing = +(combatant.OverHealPct.slice(0, -1))
-        entry.overhealing = +combatant.healed * +(combatant.OverHealPct.slice(0, -1)) / 100
+        entry.fraction.overhealing = combatant.OverHealPct ? +(combatant.OverHealPct.slice(0, -1)) : 0
+        entry.overhealing = +combatant.healed * (entry.fraction.overhealing / 100)
         entry.healing = +combatant.healed - entry.overhealing
 
         // Stats - Damage Taken
@@ -313,8 +313,9 @@ class SonshoDashboard {
 
                     // Dynamic Fields
                     if ($field.hasClass(this.elements.entry.combat.dynamic)) {
-                        if (sub_val) $field.removeClass('d-none')
-                        else $field.addClass('d-none')
+                        console.log($field, sub_val)
+                        if (sub_val) $field.parent().removeClass('d-none')
+                        else $field.parent().addClass('d-none')
                     }
 
                     // Set the field
