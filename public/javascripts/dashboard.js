@@ -90,6 +90,10 @@ class SonshoDashboard {
                 if (e.detail.isLocked) $('body').removeClass('resize')
                 else $('body').addClass('resize')
             })
+            // Overlay Plugin
+            .on('onOverlayDataUpdate', (e) => {
+                if (!this.socket.ready) this._onCombatData(e.detail)
+            })
             .on('click', this.elements.btn, function (e) {
                 e.preventDefault()
 
@@ -223,7 +227,7 @@ class SonshoDashboard {
         const entry = { fraction: {} }
 
         // Identification
-        entry.job = combatant.Job.length ? combatant.Job.toUpperCase() : Utils.in(combatant.name, '(') ? '_pet' : '_limit-break'
+        entry.job = combatant.Job.length ? combatant.Job.toUpperCase() : Utils.in(combatant.name, '(') ? '-pet' : '-limit-break'
         entry.display_name = combatant.name
         entry.display_name_short = Utils.slugify(combatant.name)
         entry.you = combatant.name == this.options.YOU,

@@ -11,6 +11,7 @@ class WS {
         this.ws = undefined
         this.route = route || 'MiniParse'
         this.events = {}
+        this.ready = false
 
         this.settings = {
             first_connect: true,
@@ -40,6 +41,8 @@ class WS {
             this.ws.addEventListener('open', async () => {
                 console.log('Socket has been opened')
 
+                this.ready = true
+
                 // Assign listening to passed events
                 this.ws.addEventListener('message', (me) => {
                     this.parse(me.data)
@@ -58,9 +61,9 @@ class WS {
                 this.settings.first_connect = false
 
                 // TODO: Why does the socket auto disconnect sometimes?
-                setTimeout(() => {
-                    this.connect()
-                }, this.settings.reconnect.interval)
+                // setTimeout(() => {
+                //     this.connect()
+                // }, this.settings.reconnect.interval)
             })
 
             return true
