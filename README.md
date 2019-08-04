@@ -41,9 +41,9 @@ We will setup a WebSocket Server to serve our data to Sonshō using `OverlayPlug
 2. OverlayPlugin.dll
   1. To add the overlay, first we will click on `New`.
   2. Name it `Sonsho` and make sure it's of type `Mini Parse`.
-  3. Add to `URL`: `http://localhost:3000/?HOST_PORT=ws://{IP Address}:{Port}/`
+  3. Add to `URL`: `https://fourcourtjester.github.io/act-overlay-sonsho/?HOST_PORT=ws://{IP Address}:{Port}/`
 
-     Change the values in curly braces to the values you put into the WSServer, example `http://localhost:3000/?HOST_PORT=ws://[::1]:10501/`
+     Change the values in curly braces to the values you put into the WSServer, example `https://fourcourtjester.github.io/act-overlay-sonsho/?HOST_PORT=ws://[::1]:10501/`
   4. Change the `Max. framerate` to 60.
 
 # Inspiration
