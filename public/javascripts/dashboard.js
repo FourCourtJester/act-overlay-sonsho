@@ -313,7 +313,6 @@ class SonshoDashboard {
 
                     // Dynamic Fields
                     if ($field.hasClass(this.elements.entry.combat.dynamic)) {
-                        console.log($field, sub_val)
                         if (sub_val) $field.parent().removeClass('d-none')
                         else $field.parent().addClass('d-none')
                     }
