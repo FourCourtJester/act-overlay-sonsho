@@ -22,6 +22,7 @@ class SonshoDashboard {
     init () {
         this.options = {
             YOU: 'YOU',
+            LIMIT_BREAK: 'Limit Break',
             categories: ['encdps', 'enchps', 'enctps'],
             fractionals: ['encdps', 'enchps', 'enctps', 'damage', 'healing', 'damage_taken'],
         }
@@ -170,6 +171,8 @@ class SonshoDashboard {
 
                 // Save the max values
                 for (const entry of entries) {
+                    if (!entry) continue
+
                     for (const stat of this.options.fractionals) {
                         if (stat.startsWith('enc')) max[stat] = Math.max(entry[stat], max[stat] || 0)
                         else max[stat] = (max[stat] || 0) + entry[stat]
@@ -182,6 +185,8 @@ class SonshoDashboard {
                 const sub_saves = []
 
                 for (const entry of entries) {
+                    if (!entry) continue
+
                     sub_saves.push(new Promise((resolve, reject) => {
                         for (const stat of Object.keys(max)) entry.fraction[stat] = (entry[stat] / max[stat]) * 100
                         this._entry(entry)
@@ -221,13 +226,17 @@ class SonshoDashboard {
      * Parses the ACT information
      * @param {Object} combat
      * @param {Object} combatant
-     * @return {Object}
+     * @return {Object|null}
      */
     async _parse (combat, combatant) {
         const entry = { fraction: {} }
 
         // Identification
         entry.job = combatant.Job.length ? combatant.Job.toUpperCase() : Utils.in(combatant.name, '(') ? '-pet' : '-limit-break'
+
+        // Remove Monster entries
+        if (entry.job == '-limit-break' && combatant.display_name !== this.options.LIMIT_BREAK) return null
+
         entry.display_name = combatant.name
         entry.display_name_short = Utils.slugify(combatant.name)
         entry.you = combatant.name == this.options.YOU,
@@ -236,14 +245,14 @@ class SonshoDashboard {
         entry.damage = +combatant.damage
 
         // Stats - Healing
-        // entry.shielding = +combatant.damageShield    // ACTWebsocket
         // entry.overhealing = +combatant.overHeal  // ACTWebsocket
         // entry.healing = +combatant.healed - entry.overhealing - entry.shielding  // ACTWebsocket
         // entry.fraction.overhealing = (entry.overhealing / (+combatant.healed || 1)) * 100    // ACTWebsocket
 
+        entry.shielding = +combatant.damageShield
         entry.fraction.overhealing = combatant.OverHealPct ? +(combatant.OverHealPct.slice(0, -1)) : 0
         entry.overhealing = +combatant.healed * (entry.fraction.overhealing / 100)
-        entry.healing = +combatant.healed - entry.overhealing
+        entry.healing = Math.max(0, +combatant.healed - entry.overhealing - entry.shielding)
 
         // Stats - Damage Taken
         entry.damage_taken = +combatant.damagetaken
@@ -270,7 +279,7 @@ class SonshoDashboard {
                 $tpl = $(`#${[this.elements.entry.combat.prefix, key, entry.display_name_short].join('-')}`) || $()
 
             if (!$tpl.length) {
-                if (entry[key]) {
+                if (entry[key] || (key == 'enchps' && entry.shielding)) {
                     // New entry
                     try {
                         $(`.${key}`).append($(Mustache.render($(tpl).html(), $.extend(entry, {

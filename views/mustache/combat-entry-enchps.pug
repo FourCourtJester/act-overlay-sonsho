@@ -12,7 +12,7 @@ script#mustache-combat-entry-enchps(type="x-tmpl-mustache")
             span.text-negative-field.mr-1(class = `{{^overhealing}}d-none{{/overhealing}}`)
                 span.entrant-overhealing.dynamic-field(data-sonsho={ key: 'overhealing' }) {{#format}}overhealing{{/format}}
                 span.entrant-total-overhealing-fraction.dynamic-field.ml-1(data-sonsho={ key: 'fraction.overhealing' }) {{#format}}fraction.overhealing{{/format}}
-            //- span.entrant-shielding.text-shielding.dynamic-field.d-inline-block.mr-1(
+            span.entrant-shielding.text-shielding.dynamic-field.d-inline-block.mr-1(
                 class = `{{^shielding}}d-none{{/shielding}}`,
                 data-sonsho={ key: 'shielding'}) {{#format}}shielding{{/format}}
             span.entrant-healing.d-inline-block(data-sonsho={ key: 'healing' }) {{#format}}healing{{/format}}
