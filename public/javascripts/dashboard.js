@@ -126,7 +126,6 @@ class SonshoDashboard {
         // Connect
         this.socket.connect()
 
-        this.socket.subscribe('SendCharName', this.events.onSendCharName)
         this.socket.subscribe('CombatData', this.events.onCombatData)
     }
 
@@ -386,6 +385,8 @@ class SonshoDashboard {
     _onCombatData ({ Combatant: combatants, Encounter: encounter, isActive: active }) {
         // Convert all types to Boolean
         active = String(active).toString().toLowerCase() == 'true'
+
+        console.log(combatants)
 
         // TODO: Create history if new encounter
         if (!this.combat.active && active) {
