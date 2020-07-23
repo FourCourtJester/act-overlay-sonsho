@@ -382,11 +382,9 @@ class SonshoDashboard {
      * Handles a CombatData event
      * @param {Object} data 
      */
-    _onCombatData ({ Combatant: combatants, Encounter: encounter, isActive: active }) {
+    async _onCombatData ({ Combatant: combatants, Encounter: encounter, isActive: active }) {
         // Convert all types to Boolean
         active = String(active).toString().toLowerCase() == 'true'
-
-        console.log(combatants)
 
         // TODO: Create history if new encounter
         if (!this.combat.active && active) {
