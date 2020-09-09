@@ -61,9 +61,9 @@ class WS {
                 this.settings.first_connect = false
 
                 // TODO: Why does the socket auto disconnect sometimes?
-                // setTimeout(() => {
-                //     this.connect()
-                // }, this.settings.reconnect.interval)
+                setTimeout(() => {
+                    this.connect()
+                }, this.settings.reconnect.interval)
             })
 
             return true
@@ -110,7 +110,7 @@ class WS {
                 cb(packet.msg)
             }
         } else {
-            console.log('Received', packet)
+            // console.log('Received', packet)
         }
 
         return true
