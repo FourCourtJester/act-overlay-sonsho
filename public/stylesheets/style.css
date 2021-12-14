@@ -48,7 +48,7 @@
   --WAR: #cf2621;
   --WHM: #fff0dc;
   ---pet: #64BDC8;
-  ---limit-break: #2599be;
+  --LIMITBREAK: #2599be;
   --primary: #007bff;
   --secondary: #6c757d;
   --success: #28a745;
@@ -2696,33 +2696,33 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(90, 166, 176, 0.5);
 }
 
-.btn--limit-break {
+.btn-LIMITBREAK {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn--limit-break:hover {
+.btn-LIMITBREAK:hover {
   color: #fff;
   background-color: #1f7f9e;
   border-color: #1d7793;
 }
-.btn--limit-break:focus, .btn--limit-break.focus {
+.btn-LIMITBREAK:focus, .btn-LIMITBREAK.focus {
   color: #fff;
   background-color: #1f7f9e;
   border-color: #1d7793;
   box-shadow: 0 0 0 0.2rem rgba(70, 168, 200, 0.5);
 }
-.btn--limit-break.disabled, .btn--limit-break:disabled {
+.btn-LIMITBREAK.disabled, .btn-LIMITBREAK:disabled {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn--limit-break:not(:disabled):not(.disabled):active, .btn--limit-break:not(:disabled):not(.disabled).active, .show > .btn--limit-break.dropdown-toggle {
+.btn-LIMITBREAK:not(:disabled):not(.disabled):active, .btn-LIMITBREAK:not(:disabled):not(.disabled).active, .show > .btn-LIMITBREAK.dropdown-toggle {
   color: #fff;
   background-color: #1d7793;
   border-color: #1b6e89;
 }
-.btn--limit-break:not(:disabled):not(.disabled):active:focus, .btn--limit-break:not(:disabled):not(.disabled).active:focus, .show > .btn--limit-break.dropdown-toggle:focus {
+.btn-LIMITBREAK:not(:disabled):not(.disabled):active:focus, .btn-LIMITBREAK:not(:disabled):not(.disabled).active:focus, .show > .btn-LIMITBREAK.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(70, 168, 200, 0.5);
 }
 
@@ -3841,28 +3841,28 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(100, 189, 200, 0.5);
 }
 
-.btn-outline--limit-break {
+.btn-outline-LIMITBREAK {
   color: #2599be;
   border-color: #2599be;
 }
-.btn-outline--limit-break:hover {
+.btn-outline-LIMITBREAK:hover {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn-outline--limit-break:focus, .btn-outline--limit-break.focus {
+.btn-outline-LIMITBREAK:focus, .btn-outline-LIMITBREAK.focus {
   box-shadow: 0 0 0 0.2rem rgba(37, 153, 190, 0.5);
 }
-.btn-outline--limit-break.disabled, .btn-outline--limit-break:disabled {
+.btn-outline-LIMITBREAK.disabled, .btn-outline-LIMITBREAK:disabled {
   color: #2599be;
   background-color: transparent;
 }
-.btn-outline--limit-break:not(:disabled):not(.disabled):active, .btn-outline--limit-break:not(:disabled):not(.disabled).active, .show > .btn-outline--limit-break.dropdown-toggle {
+.btn-outline-LIMITBREAK:not(:disabled):not(.disabled):active, .btn-outline-LIMITBREAK:not(:disabled):not(.disabled).active, .show > .btn-outline-LIMITBREAK.dropdown-toggle {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn-outline--limit-break:not(:disabled):not(.disabled):active:focus, .btn-outline--limit-break:not(:disabled):not(.disabled).active:focus, .show > .btn-outline--limit-break.dropdown-toggle:focus {
+.btn-outline-LIMITBREAK:not(:disabled):not(.disabled):active:focus, .btn-outline-LIMITBREAK:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-LIMITBREAK.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(37, 153, 190, 0.5);
 }
 
@@ -4759,13 +4759,13 @@ button.bg--pet:focus {
   background-color: #41abb8 !important;
 }
 
-.bg--limit-break {
+.bg-LIMITBREAK {
   background-color: #2599be !important;
 }
 
-a.bg--limit-break:hover, a.bg--limit-break:focus,
-button.bg--limit-break:hover,
-button.bg--limit-break:focus {
+a.bg-LIMITBREAK:hover, a.bg-LIMITBREAK:focus,
+button.bg-LIMITBREAK:hover,
+button.bg-LIMITBREAK:focus {
   background-color: #1d7793 !important;
 }
 
@@ -5037,7 +5037,7 @@ button.bg-dark:focus {
   border-color: #64BDC8 !important;
 }
 
-.border--limit-break {
+.border-LIMITBREAK {
   border-color: #2599be !important;
 }
 
@@ -8884,11 +8884,11 @@ a.text--pet:hover, a.text--pet:focus {
   color: #3b99a5 !important;
 }
 
-.text--limit-break {
+.text-LIMITBREAK {
   color: #2599be !important;
 }
 
-a.text--limit-break:hover, a.text--limit-break:focus {
+a.text-LIMITBREAK:hover, a.text-LIMITBREAK:focus {
   color: #19657e !important;
 }
 
@@ -10651,56 +10651,56 @@ a.text-dark:hover, a.text-dark:focus {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
-.job--limit-break {
+.job-LIMITBREAK {
   background-color: rgba(37, 153, 190, 0.1) !important;
   cursor: pointer;
   height: 30px;
   font-size: 1.2rem;
 }
-.job--limit-break img {
-  content: url("../images/job/-limit-break.png");
+.job-LIMITBREAK img {
+  content: url("../images/job/LIMITBREAK.png");
   height: 24px;
   width: 24px;
 }
-.job--limit-break .bar-graph {
+.job-LIMITBREAK .bar-graph {
   top: 0;
   left: 0;
   z-index: -1;
 }
-.job--limit-break .entrant-name {
+.job-LIMITBREAK .entrant-name {
   overflow: hidden;
   text-overflow: ellipsis;
   text-indent: 0.25rem;
 }
-.job--limit-break .entrant-dps, .job--limit-break .entrant-hps, .job--limit-break .entrant-tps {
+.job-LIMITBREAK .entrant-dps, .job-LIMITBREAK .entrant-hps, .job-LIMITBREAK .entrant-tps {
   min-width: 41px;
 }
-.job--limit-break .entrant-healing, .job--limit-break .entrant-shielding, .job--limit-break .entrant-damage-taken {
+.job-LIMITBREAK .entrant-healing, .job-LIMITBREAK .entrant-shielding, .job-LIMITBREAK .entrant-damage-taken {
   min-width: 46px;
 }
-.job--limit-break .entrant-total-damage-fraction, .job--limit-break .entrant-total-healing-fraction {
+.job-LIMITBREAK .entrant-total-damage-fraction, .job-LIMITBREAK .entrant-total-healing-fraction {
   min-width: 46px;
 }
-.job--limit-break .entrant-total-damage-fraction:after, .job--limit-break .entrant-total-healing-fraction:after {
+.job-LIMITBREAK .entrant-total-damage-fraction:after, .job-LIMITBREAK .entrant-total-healing-fraction:after {
   content: "%";
 }
-.job--limit-break .entrant-total-overhealing-fraction:before {
+.job-LIMITBREAK .entrant-total-overhealing-fraction:before {
   content: "(";
 }
-.job--limit-break .entrant-total-overhealing-fraction:after {
+.job-LIMITBREAK .entrant-total-overhealing-fraction:after {
   content: "%)";
 }
-.job--limit-break .entrant-deaths .icon {
+.job-LIMITBREAK .entrant-deaths .icon {
   font-size: 0.95rem;
   vertical-align: text-top;
 }
-.job--limit-break .dynamic-field.d-none {
+.job-LIMITBREAK .dynamic-field.d-none {
   display: none !important;
 }
-.job--limit-break:not(.you) .bar-graph {
+.job-LIMITBREAK:not(.you) .bar-graph {
   background: #2599be linear-gradient(90deg, #1d7793, #3db3d9) repeat-x !important;
 }
-.job--limit-break.you .bar-graph {
+.job-LIMITBREAK.you .bar-graph {
   background-color: #2599be !important;
   background-size: 1rem 1rem;
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
