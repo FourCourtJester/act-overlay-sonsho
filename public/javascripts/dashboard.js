@@ -236,9 +236,6 @@ class SonshoDashboard {
         // Remove Monster entries
         if (entry.job == '-limit-break' && combatant.display_name !== this.options.LIMIT_BREAK) return null
 
-        // Fix for Limit Break
-        if (entry.job == this.options.LIMIT_BREAK.toUpperCase()) entry.job == entry.job.replace(/\s/, '')
-
         entry.display_name = combatant.name
         entry.display_name_short = Utils.slugify(combatant.name)
         entry.you = combatant.name == this.options.YOU,

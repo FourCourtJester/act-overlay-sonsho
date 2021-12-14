@@ -48,7 +48,7 @@
   --WAR: #cf2621;
   --WHM: #fff0dc;
   ---pet: #64BDC8;
-  --LIMITBREAK: #2599be;
+  --LIMIT: #2599be;
   --primary: #007bff;
   --secondary: #6c757d;
   --success: #28a745;
@@ -2696,33 +2696,33 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(90, 166, 176, 0.5);
 }
 
-.btn-LIMITBREAK {
+.btn-LIMIT {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn-LIMITBREAK:hover {
+.btn-LIMIT:hover {
   color: #fff;
   background-color: #1f7f9e;
   border-color: #1d7793;
 }
-.btn-LIMITBREAK:focus, .btn-LIMITBREAK.focus {
+.btn-LIMIT:focus, .btn-LIMIT.focus {
   color: #fff;
   background-color: #1f7f9e;
   border-color: #1d7793;
   box-shadow: 0 0 0 0.2rem rgba(70, 168, 200, 0.5);
 }
-.btn-LIMITBREAK.disabled, .btn-LIMITBREAK:disabled {
+.btn-LIMIT.disabled, .btn-LIMIT:disabled {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn-LIMITBREAK:not(:disabled):not(.disabled):active, .btn-LIMITBREAK:not(:disabled):not(.disabled).active, .show > .btn-LIMITBREAK.dropdown-toggle {
+.btn-LIMIT:not(:disabled):not(.disabled):active, .btn-LIMIT:not(:disabled):not(.disabled).active, .show > .btn-LIMIT.dropdown-toggle {
   color: #fff;
   background-color: #1d7793;
   border-color: #1b6e89;
 }
-.btn-LIMITBREAK:not(:disabled):not(.disabled):active:focus, .btn-LIMITBREAK:not(:disabled):not(.disabled).active:focus, .show > .btn-LIMITBREAK.dropdown-toggle:focus {
+.btn-LIMIT:not(:disabled):not(.disabled):active:focus, .btn-LIMIT:not(:disabled):not(.disabled).active:focus, .show > .btn-LIMIT.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(70, 168, 200, 0.5);
 }
 
@@ -3841,28 +3841,28 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(100, 189, 200, 0.5);
 }
 
-.btn-outline-LIMITBREAK {
+.btn-outline-LIMIT {
   color: #2599be;
   border-color: #2599be;
 }
-.btn-outline-LIMITBREAK:hover {
+.btn-outline-LIMIT:hover {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn-outline-LIMITBREAK:focus, .btn-outline-LIMITBREAK.focus {
+.btn-outline-LIMIT:focus, .btn-outline-LIMIT.focus {
   box-shadow: 0 0 0 0.2rem rgba(37, 153, 190, 0.5);
 }
-.btn-outline-LIMITBREAK.disabled, .btn-outline-LIMITBREAK:disabled {
+.btn-outline-LIMIT.disabled, .btn-outline-LIMIT:disabled {
   color: #2599be;
   background-color: transparent;
 }
-.btn-outline-LIMITBREAK:not(:disabled):not(.disabled):active, .btn-outline-LIMITBREAK:not(:disabled):not(.disabled).active, .show > .btn-outline-LIMITBREAK.dropdown-toggle {
+.btn-outline-LIMIT:not(:disabled):not(.disabled):active, .btn-outline-LIMIT:not(:disabled):not(.disabled).active, .show > .btn-outline-LIMIT.dropdown-toggle {
   color: #fff;
   background-color: #2599be;
   border-color: #2599be;
 }
-.btn-outline-LIMITBREAK:not(:disabled):not(.disabled):active:focus, .btn-outline-LIMITBREAK:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-LIMITBREAK.dropdown-toggle:focus {
+.btn-outline-LIMIT:not(:disabled):not(.disabled):active:focus, .btn-outline-LIMIT:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-LIMIT.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(37, 153, 190, 0.5);
 }
 
@@ -4759,13 +4759,13 @@ button.bg--pet:focus {
   background-color: #41abb8 !important;
 }
 
-.bg-LIMITBREAK {
+.bg-LIMIT {
   background-color: #2599be !important;
 }
 
-a.bg-LIMITBREAK:hover, a.bg-LIMITBREAK:focus,
-button.bg-LIMITBREAK:hover,
-button.bg-LIMITBREAK:focus {
+a.bg-LIMIT:hover, a.bg-LIMIT:focus,
+button.bg-LIMIT:hover,
+button.bg-LIMIT:focus {
   background-color: #1d7793 !important;
 }
 
@@ -5037,7 +5037,7 @@ button.bg-dark:focus {
   border-color: #64BDC8 !important;
 }
 
-.border-LIMITBREAK {
+.border-LIMIT {
   border-color: #2599be !important;
 }
 
@@ -8884,11 +8884,11 @@ a.text--pet:hover, a.text--pet:focus {
   color: #3b99a5 !important;
 }
 
-.text-LIMITBREAK {
+.text-LIMIT {
   color: #2599be !important;
 }
 
-a.text-LIMITBREAK:hover, a.text-LIMITBREAK:focus {
+a.text-LIMIT:hover, a.text-LIMIT:focus {
   color: #19657e !important;
 }
 
@@ -10651,56 +10651,56 @@ a.text-dark:hover, a.text-dark:focus {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
-.job-LIMITBREAK {
+.job-LIMIT {
   background-color: rgba(37, 153, 190, 0.1) !important;
   cursor: pointer;
   height: 30px;
   font-size: 1.2rem;
 }
-.job-LIMITBREAK img {
-  content: url("../images/job/LIMITBREAK.png");
+.job-LIMIT img {
+  content: url("../images/job/LIMIT.png");
   height: 24px;
   width: 24px;
 }
-.job-LIMITBREAK .bar-graph {
+.job-LIMIT .bar-graph {
   top: 0;
   left: 0;
   z-index: -1;
 }
-.job-LIMITBREAK .entrant-name {
+.job-LIMIT .entrant-name {
   overflow: hidden;
   text-overflow: ellipsis;
   text-indent: 0.25rem;
 }
-.job-LIMITBREAK .entrant-dps, .job-LIMITBREAK .entrant-hps, .job-LIMITBREAK .entrant-tps {
+.job-LIMIT .entrant-dps, .job-LIMIT .entrant-hps, .job-LIMIT .entrant-tps {
   min-width: 41px;
 }
-.job-LIMITBREAK .entrant-healing, .job-LIMITBREAK .entrant-shielding, .job-LIMITBREAK .entrant-damage-taken {
+.job-LIMIT .entrant-healing, .job-LIMIT .entrant-shielding, .job-LIMIT .entrant-damage-taken {
   min-width: 46px;
 }
-.job-LIMITBREAK .entrant-total-damage-fraction, .job-LIMITBREAK .entrant-total-healing-fraction {
+.job-LIMIT .entrant-total-damage-fraction, .job-LIMIT .entrant-total-healing-fraction {
   min-width: 46px;
 }
-.job-LIMITBREAK .entrant-total-damage-fraction:after, .job-LIMITBREAK .entrant-total-healing-fraction:after {
+.job-LIMIT .entrant-total-damage-fraction:after, .job-LIMIT .entrant-total-healing-fraction:after {
   content: "%";
 }
-.job-LIMITBREAK .entrant-total-overhealing-fraction:before {
+.job-LIMIT .entrant-total-overhealing-fraction:before {
   content: "(";
 }
-.job-LIMITBREAK .entrant-total-overhealing-fraction:after {
+.job-LIMIT .entrant-total-overhealing-fraction:after {
   content: "%)";
 }
-.job-LIMITBREAK .entrant-deaths .icon {
+.job-LIMIT .entrant-deaths .icon {
   font-size: 0.95rem;
   vertical-align: text-top;
 }
-.job-LIMITBREAK .dynamic-field.d-none {
+.job-LIMIT .dynamic-field.d-none {
   display: none !important;
 }
-.job-LIMITBREAK:not(.you) .bar-graph {
+.job-LIMIT:not(.you) .bar-graph {
   background: #2599be linear-gradient(90deg, #1d7793, #3db3d9) repeat-x !important;
 }
-.job-LIMITBREAK.you .bar-graph {
+.job-LIMIT.you .bar-graph {
   background-color: #2599be !important;
   background-size: 1rem 1rem;
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
